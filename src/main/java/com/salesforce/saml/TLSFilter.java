@@ -15,16 +15,22 @@ public class TLSFilter implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response,  FilterChain chain) throws IOException, ServletException {
-
-        if(request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
-            if(!request.isSecure()) {
-                HttpServletRequest httpReq = (HttpServletRequest) request;
-                String redirectTarget = httpReq.getRequestURL().toString();
-                redirectTarget = redirectTarget.replaceFirst("http", "https");
-                ((HttpServletResponse)response).sendRedirect(redirectTarget);
-            } else {
-                chain.doFilter(request, response);
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        if(!request.isSecure()) {
+            StringBuilder tlsURL = new StringBuilder("https://");
+            tlsURL.append(request.getServerName());
+            if (httpRequest.getRequestURI() != null) {
+                tlsURL.append(httpRequest.getRequestURI());
             }
+            if (httpRequest.getQueryString() != null) {
+                tlsURL.append("?").append(httpRequest.getQueryString());
+            }
+
+            httpResponse.sendRedirect(tlsURL.toString());
+
+        } else {
+            if (chain != null) chain.doFilter(request, response);
         }
     }
 
