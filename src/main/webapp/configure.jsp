@@ -26,6 +26,6 @@ It doesn't look like you've configured SAML quite yet....please follow these ste
 <p>Download your Connected App's SAML Metadata</p>
 <p>Base64 Encode the Metadata</p>
 <p>Run this command using toolbelt:</p>
-<pre>heroku config:set SAML_METADATA=<your base64 encoded metadata></pre>
+<pre>heroku config:set SAML_METADATA=&lt;your base64 encoded metadata&gt;</pre>
 </body>
 </html>

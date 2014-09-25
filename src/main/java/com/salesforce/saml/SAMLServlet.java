@@ -136,7 +136,8 @@ public class SAMLServlet extends HttpServlet{
 
 
         String url = request.getRequestURL().toString();
-
+        //herokuism
+        url = url.replaceFirst("http", "https");
         if (!INITIALIZED)  {
             //DO some error handling
             request.setAttribute("URL", url);
