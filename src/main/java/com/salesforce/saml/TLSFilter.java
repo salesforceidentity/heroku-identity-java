@@ -17,7 +17,9 @@ public class TLSFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,  FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        if(!request.isSecure()) {
+        String scheme = httpRequest.getHeader("x-forwarded-proto");
+
+        if(!scheme.equals("https")) {
             StringBuilder tlsURL = new StringBuilder("https://");
             tlsURL.append(request.getServerName());
             if (httpRequest.getRequestURI() != null) {
