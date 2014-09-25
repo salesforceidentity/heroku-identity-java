@@ -8,7 +8,14 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-
+    <filter>
+        <filter-name>TLSFilter</filter-name>
+        <filter-class>com.salesforce.saml.TLSFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>TLSFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>SAMLServlet</servlet-name>
         <servlet-class>com.salesforce.saml.SAMLServlet</servlet-class>

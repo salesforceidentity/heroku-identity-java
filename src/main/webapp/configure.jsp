@@ -23,9 +23,9 @@ It doesn't look like you've configured SAML quite yet....please follow these ste
 
 
 <h2><li>Set the following Heroku Config Variables:</li></h2>
-<p>do this</p>
-<pre>heroku config:set IDP_URL=joesmith</pre>
-<pre>heroku config:set ISSUER=joesmith</pre>
-<pre>heroku config:set IDP_CERTIFICATE=joesmith</pre>
+<p>Download your Connected App's SAML Metadata</p>
+<p>Base64 Encode the Metadata</p>
+<p>Run this command using toolbelt:</p>
+<pre>heroku config:set SAML_METADATA=<your base64 encoded metadata></pre>
 </body>
 </html>
