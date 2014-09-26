@@ -24,6 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.security.PublicKey;
 import java.security.cert.Certificate;
@@ -139,7 +140,12 @@ public class SAMLServlet extends HttpServlet{
         String url = request.getRequestURL().toString();
         //herokuism
         url = url.replaceFirst("http", "https");
-        String app = new URI(url).getHost().split("\\.")[0];
+        String app = null;
+        try {
+            app = new URI(url).getHost().split("\\.")[0];
+        } catch (URISyntaxException e) {
+            throw new ServletException(e);
+        }
         if (!INITIALIZED)  {
             //DO some error handling
             request.setAttribute("URL", url);
@@ -189,6 +195,8 @@ public class SAMLServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String url = request.getRequestURL().toString();
+        //herokuism
+        url = url.replaceFirst("http", "https");
 
         //Get the SAMLResponse and RelayState
         String encodedResponse = request.getParameter("SAMLResponse");
