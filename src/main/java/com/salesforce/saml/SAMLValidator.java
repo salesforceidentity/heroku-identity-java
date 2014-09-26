@@ -216,7 +216,7 @@ public class SAMLValidator {
                 XPathExpression subjectConfirmationDataXPath = xpath.compile("saml:Subject/saml:SubjectConfirmation/saml:SubjectConfirmationData");
                 Node subjectConfirmationDataNode = (Node) subjectConfirmationDataXPath.evaluate(assertionNode, XPathConstants.NODE);
                 String assertedRecipient = subjectConfirmationDataNode.getAttributes().getNamedItem("Recipient").getTextContent();
-                if (!recipient.equals(assertedRecipient)) throw new SAMLException("Invalid Recipient. Expected "+recipient+", received"+assertedRecipient);
+                if (!recipient.equals(assertedRecipient)) throw new SAMLException("Invalid Recipient. Expected "+recipient+", received "+assertedRecipient);
 
                 //check the audience
                 XPathExpression audienceXPath = xpath.compile("saml:Conditions/saml:AudienceRestriction/saml:Audience");

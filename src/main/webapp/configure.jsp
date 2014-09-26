@@ -18,7 +18,7 @@ It doesn't look like you've configured SAML quite yet....please follow these ste
 <h2><li>Go to your Salesforce org, and create a Connected App:</li></h2>
 <p>Navigate to <b>Setup | Create | Apps</b></p>
 <p>Scroll down to <b>Connected Apps</b> and click <b>New</b></p>
-<p>Give you app a name, enter your email address and, optionally, set a logo, icon and description</p>
+<p>Give your app a name, enter your email address and, optionally, set a logo, icon and description</p>
 <p>Scroll down to Web App Settings and check the <b>Enable SAML</b> checkbox</p>
 <p>Use the following <b>Start Url</b>: <%= url %> </p>
 <p>Use the following <b>Entity Id</b>: <%= url %> </p>
@@ -31,5 +31,6 @@ It doesn't look like you've configured SAML quite yet....please follow these ste
 <p>Base64 Encode the Metadata</p>
 <p>Run this command using toolbelt:</p>
 <pre>heroku config:set --app <%= app %> SAML_METADATA=&lt;your base64 encoded metadata&gt;</pre>
+<p><a href="javascript:window.location.reload(true)">Refresh this page</a></p>
 </body>
 </html>
