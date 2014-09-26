@@ -1,5 +1,6 @@
 <%
 	String url = (String)request.getAttribute("URL");
+	String app = (String)request.getAttribute("app");
 %>
 
 <html>
@@ -15,7 +16,10 @@ It doesn't look like you've configured SAML quite yet....please follow these ste
 <ol>
 
 <h2><li>Go to your Salesforce org, and create a Connected App:</li></h2>
-<p>Check the <b>Enable SAML</b> checkbox</p>
+<p>Navigate to <b>Setup | Create | Apps</b></p>
+<p>Scroll down to <b>Connected Apps</b> and click <b>New</b></p>
+<p>Give you app a name, enter your email address and, optionally, set a logo, icon and description</p>
+<p>Scroll down to Web App Settings and check the <b>Enable SAML</b> checkbox</p>
 <p>Use the following <b>Start Url</b>: <%= url %> </p>
 <p>Use the following <b>Entity Id</b>: <%= url %> </p>
 <p>Use the following <b>ACS URL</b>: <%= url %> </p>
@@ -23,9 +27,9 @@ It doesn't look like you've configured SAML quite yet....please follow these ste
 
 
 <h2><li>Set the following Heroku Config Variables:</li></h2>
-<p>Download your Connected App's SAML Metadata</p>
+<p>Click 'Manage' from the Connected App detail page and download your Connected App's SAML Metadata</p>
 <p>Base64 Encode the Metadata</p>
 <p>Run this command using toolbelt:</p>
-<pre>heroku config:set SAML_METADATA=&lt;your base64 encoded metadata&gt;</pre>
+<pre>heroku config:set --app <%= app %> SAML_METADATA=&lt;your base64 encoded metadata&gt;</pre>
 </body>
 </html>

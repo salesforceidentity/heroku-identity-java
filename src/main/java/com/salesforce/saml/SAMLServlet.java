@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.security.PublicKey;
 import java.security.cert.Certificate;
@@ -138,9 +139,11 @@ public class SAMLServlet extends HttpServlet{
         String url = request.getRequestURL().toString();
         //herokuism
         url = url.replaceFirst("http", "https");
+        String app = new URI(url).getHost().split("\\.")[0];
         if (!INITIALIZED)  {
             //DO some error handling
             request.setAttribute("URL", url);
+            request.setAttribute("app", app);
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/configure.jsp");
             dispatcher.forward(request, response);
             return;
