@@ -1,0 +1,12 @@
+{
+  "name": "heroku-identity-java",
+  "description": "A java based sample for integrating Salesforce Identity and Heroku",
+  "keywords": ["identity", "saml", "salesforce", "java"],
+  "website": "https://www.salesforce.com/platform/identity",
+  "repository": "https://github.com/salesforceidentity/heroku-identity-java",
+  "logo": "https://www.salesforceidentity.info/img/launcher.png",
+  "success_url": "/",
+  "env": {
+    "BUILDPACK_URL": "https://github.com/heroku/heroku-buildpack-java"
+  }
+}
