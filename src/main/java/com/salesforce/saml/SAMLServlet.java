@@ -3,6 +3,12 @@ package com.salesforce.saml;
 import com.salesforce.util.Bag;
 import com.salesforce.util.XSDDateTime;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -49,16 +55,52 @@ public class SAMLServlet extends HttpServlet{
     @Override
     public void init() throws ServletException {
         String samlMetadata = System.getenv("SAML_METADATA");
+
+
+
         if (samlMetadata != null) {
 
             Document metadataDocument = null;
+
             try {
-                String response = new String(Base64.decodeBase64(samlMetadata.getBytes("UTF-8")),"UTF-8");
+
+                String response = null;
+
+                if (samlMetadata.toLowerCase().startsWith("https")) {
+
+                    HttpClient client = new HttpClient();
+
+                    // Create a method instance.
+                    GetMethod method = new GetMethod(samlMetadata);
+
+                    // Provide custom retry handler is necessary
+                    method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, new DefaultHttpMethodRetryHandler(3, false));
+
+                    // Execute the method.
+                    int statusCode = client.executeMethod(method);
+
+                    if (statusCode != HttpStatus.SC_OK) {
+                        System.err.println("Method failed: " + method.getStatusLine());
+                    }
+
+                    // Read the response body.
+                    byte[] responseBody = method.getResponseBody();
+
+                    // Deal with the response.
+                    response = new String(responseBody, "UTF-8");
+
+                } else {
+
+                    response = new String(Base64.decodeBase64(samlMetadata.getBytes("UTF-8")),"UTF-8");
+
+                }
+
                 DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
                 domFactory.setNamespaceAware(true);
                 DocumentBuilder builder = null;
                 builder = domFactory.newDocumentBuilder();
                 metadataDocument = builder.parse(new InputSource(new ByteArrayInputStream(response.getBytes("UTF-8"))));
+
             } catch (Exception e) {
                 throw new ServletException("Error decoding SAML Metadata", e);
             }
