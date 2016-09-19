@@ -46,6 +46,10 @@ if (cookies != null) {
 </center>
 <% } else {  %>
  <div class="centered">
+ Hi
+ <br/>
+ <img src="http://www.salesforce-online-training.com/wp-content/uploads/2013/11/sales-force-online-favicon.jpg" alt="shah-the-trainer" width=""200px height="200px" />
+ <br/>
  <span class=""><a href="/_saml?RelayState=%2F" class="button center">Login</a></span>
  </div>
 
