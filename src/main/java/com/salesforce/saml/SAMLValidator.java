@@ -61,11 +61,12 @@ import java.security.PublicKey;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.text.MessageFormat;
 
 
 public class SAMLValidator {
 
-    private static Boolean DEBUG = false;
+    private static Boolean DEBUG = System.getenv("DEBUG") != null && System.getenv("DEBUG").equals("true");
 
     public Identity validate(String encodedResponse,  PublicKey publicKey, PublicKey secondaryPublicKey, String issuer, String recipient, String audience) throws SAMLException {
 
@@ -211,18 +212,21 @@ public class SAMLValidator {
                 Node issuerNode = (Node) issuerXPath.evaluate(assertionNode, XPathConstants.NODE);
                 String assertedIssuer = issuerNode.getTextContent();
                 if (!issuer.equals(assertedIssuer)) throw new SAMLException("Invalid Issuer");
+                if (DEBUG) System.err.println(MessageFormat.format("Verified issuer ({0}) matches assertedIssuer ({1})", issuer, assertedIssuer));
 
                 //check the recipient
                 XPathExpression subjectConfirmationDataXPath = xpath.compile("saml:Subject/saml:SubjectConfirmation/saml:SubjectConfirmationData");
                 Node subjectConfirmationDataNode = (Node) subjectConfirmationDataXPath.evaluate(assertionNode, XPathConstants.NODE);
                 String assertedRecipient = subjectConfirmationDataNode.getAttributes().getNamedItem("Recipient").getTextContent();
                 if (!recipient.equals(assertedRecipient)) throw new SAMLException("Invalid Recipient. Expected "+recipient+", received "+assertedRecipient);
+                if (DEBUG) System.err.println(MessageFormat.format("Verified recipient ({0}) matches asserted recipient ({1})", recipient, assertedRecipient));
 
                 //check the audience
                 XPathExpression audienceXPath = xpath.compile("saml:Conditions/saml:AudienceRestriction/saml:Audience");
                 Node audienceNode = (Node) audienceXPath.evaluate(assertionNode, XPathConstants.NODE);
                 String assertedAudience = audienceNode.getTextContent();
                 if (!audience.equals(assertedAudience)) throw new SAMLException("Invalid Audience");
+                if (DEBUG) System.err.println(MessageFormat.format("Verified audience ({0}) matches asserted audience ({1})", audience, assertedAudience));
 
                 //Check the validity
                 XPathExpression conditionsXPath = xpath.compile("saml:Conditions");
@@ -233,6 +237,7 @@ public class SAMLValidator {
                 Calendar end = DatatypeConverter.parseDateTime(notOnOrAfter);
                 if ( System.currentTimeMillis() <= start.getTimeInMillis() ) throw new SAMLException("Assertion appears to have arrived early");
                 if ( System.currentTimeMillis() > end.getTimeInMillis() ) throw new SAMLException("Assertion Expired");
+                if (DEBUG) System.err.println(MessageFormat.format("Verified NotOnOrAfter ({0}) and NotBefore ({1})", notOnOrAfter, notBefore));
 
                 //get the subject
                 XPathExpression nameIDXPath = xpath.compile("saml:Subject/saml:NameID");
