@@ -1,16 +1,15 @@
+
 package com.salesforce.saml;
 
 import java.io.IOException;
 import java.text.MessageFormat;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-public class CSPFilter implements Filter {
+public abstract class CSPFilter implements Filter {
 
-    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
     }
@@ -24,8 +23,8 @@ public class CSPFilter implements Filter {
         if (chain != null) chain.doFilter(request, response);
     }
 
-    @Override
     public void destroy() {
 
     }
 }
+
