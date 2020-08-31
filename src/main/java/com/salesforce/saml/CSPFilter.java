@@ -8,7 +8,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 
 
-public abstract class CSPFilter implements Filter {
+public class CSPFilter implements Filter {
 
     public void init(FilterConfig filterConfig) throws ServletException {
 
