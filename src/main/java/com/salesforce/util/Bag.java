@@ -60,14 +60,17 @@ public class Bag extends LinkedHashMap {
         return null;
     }
 
-    public void remove(Object key, Object value) {
+    public boolean remove(Object key, Object value) {
+        boolean removed = false;
         List values = getValues(key);
         if (values != null) {
             values.remove(value);
             if (values.isEmpty()) {
                 remove(key);
             }
+            removed = true;
         }
+        return removed;
     }
 
     public Collection values() {
