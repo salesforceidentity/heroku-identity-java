@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class TLSFilter implements Filter {
 
-
-    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
     }
@@ -35,8 +33,7 @@ public class TLSFilter implements Filter {
             if (chain != null) chain.doFilter(request, response);
         }
     }
-
-    @Override
+    
     public void destroy() {
 
     }
