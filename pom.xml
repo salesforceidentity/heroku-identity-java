@@ -10,7 +10,7 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tomcat.version>8.5.2</tomcat.version>
+        <tomcat.version>10.0.0-M10</tomcat.version>
     </properties>
 
     <dependencies>
